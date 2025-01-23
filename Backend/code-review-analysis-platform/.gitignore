@@ -1,0 +1,75 @@
+# Build and output files
+bin/
+obj/
+out/
+
+# User-specific files
+.vscode/
+*.swp
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE-specific files
+.idea/
+*.iml
+
+# Environment variables & secrets
+.env
+appsettings*.json
+
+# Dependency caches
+node_modules/
+packages/
+wwwroot/lib/
+dist/
+bower_components/
+
+# ASP.NET runtime and temp files
+!wwwroot/
+wwwroot/dist/
+wwwroot/node_modules/
+
+# NuGet
+*.nupkg
+project.lock.json
+.nuget/
+
+# Resharper
+*.DotSettings.user
+
+# Rider
+.idea/
+*.sln.iml
+
+# Visual Studio
+*.vscode/
+.vs/
+*.csproj.user
+*.pidb
+*.svd
+TestResults/
+Generated_Code/
+
+# JetBrains Rider
+.idea/
+.idea_modules/
+*.sln.iml
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Coverage and test reports
+coverage/
+*.coverage
+*.coveragexml
+*.testresults

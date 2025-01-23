@@ -1,0 +1,6 @@
+@code_review_analysis_platform_HostAddress = http://localhost:5053
+
+GET {{code_review_analysis_platform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
