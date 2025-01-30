@@ -33,4 +33,8 @@ export class SignUpComponent {
   }
 
   passwordMatchValidator(data: FormGroup) {}
+
+  onSubmit() {
+    console.log('nigga');
+  }
 }
