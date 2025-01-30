@@ -1,0 +1,14 @@
+<form [formGroup]="signUpForm">
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" />
+    <mat-error
+      *ngIf="
+        signUpForm.get('firstName')?.invalid &&
+        signUpForm.get('firstName')?.touched
+      "
+    >
+      First Name is required
+    </mat-error>
+  </mat-form-field>
+</form>
