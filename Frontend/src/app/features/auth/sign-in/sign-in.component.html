@@ -2,7 +2,7 @@
 <div class="signup-container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Sign Up</mat-card-title>
+      <mat-card-title>Sign In</mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
@@ -13,7 +13,7 @@
             <input
             type="email"
               matInput
-              formControlName="firstName"
+              formControlName="userEmail"
               placeholder="Enter email"
             />
           </mat-form-field>
@@ -28,6 +28,17 @@
               placeholder="Enter password"
             />
           </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="signInForm.invalid"
+          >
+            Sign In
+          </button>
         </div>
       </form>
     </mat-card-content>

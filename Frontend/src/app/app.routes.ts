@@ -20,8 +20,8 @@ export const routes: Routes = [
     component: AuthComponent,
     children: [
       { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
-      { path: 'sign-in', component: SignInComponent },
-      { path: 'sign-up', component: SignUpComponent },
+      { path: 'sign-in', component: SignInComponent, data: { isExistingUser: true } },
+      { path: 'sign-up', component: SignUpComponent, data: { isExistingUser: false } },
     ],
   },
 ];

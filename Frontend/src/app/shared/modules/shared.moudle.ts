@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list'
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 export const SHARED_MODULES = [
   MatFormFieldModule,
@@ -18,5 +19,7 @@ export const SHARED_MODULES = [
   ReactiveFormsModule,
   CommonModule,
   MatCardModule,
-  MatGridListModule
+  MatGridListModule,
+  RouterModule,
+  RouterOutlet
 ];
