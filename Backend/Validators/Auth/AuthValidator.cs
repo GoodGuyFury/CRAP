@@ -9,7 +9,7 @@ namespace code_review_analysis_platform.Validators.Auth
         {
             public override bool IsValid(object? value)
             {
-               var Models = value as Login;
+               var Models = value as LoginDetails;
                 if (Models == null) {
                     return false;
                 }

@@ -1,6 +1,6 @@
 export interface UserModel {
-  id: string;
-  username: string;
+  userId: string;
+  userName: string;
   email: string;
   role: 'admin' | 'user' | 'mods';
   createdAt: Date;

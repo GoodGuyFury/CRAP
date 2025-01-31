@@ -13,7 +13,7 @@ namespace code_review_analysis_platform.Controllers.Auth
     {
         // GET: api/<AuthController>
         [HttpPost("login")]
-        public ApiResponse<LoginResponseDTO> Get()
+        public ApiResponse<LoginResponseDTO> Login([FromBody] LoginDetails loginDetails)
         {
             var UserData = new LoginResponseDTO {
                 FirstName = "",
@@ -26,30 +26,20 @@ namespace code_review_analysis_platform.Controllers.Auth
             };
             return (ApiResponse<LoginResponseDTO>.SuccessResponse(UserData, "sexy"));
         }
+        [HttpPost("signup")]
+        public ApiResponse<LoginResponseDTO> SignUp([FromBody] LoginDetails loginDetails)
+        {
+            var UserData = new LoginResponseDTO
+            {
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = DateTime.Now,
+                Role = Role.Admin,
+                UserId = "dasikhcjn",
+                AccessibleRoutes = new() { "hi", "hoo", "hhh" },
 
-        //// GET api/<AuthController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<AuthController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT api/<AuthController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<AuthController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+            };
+            return (ApiResponse<LoginResponseDTO>.SuccessResponse(UserData, "sexy"));
+        }
     }
 }
