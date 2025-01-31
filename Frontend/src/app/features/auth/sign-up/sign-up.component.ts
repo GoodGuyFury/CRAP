@@ -6,6 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { SignUpModel } from '../../../shared/models/sign-up.model';
+import { last } from 'rxjs';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -16,7 +19,7 @@ import {
 })
 export class SignUpComponent {
   signUpForm!: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
   ngOnInit(): void {
     this.signUpForm = this.fb.group(
       {
@@ -25,6 +28,7 @@ export class SignUpComponent {
         lastName: [''],
         dob: ['', [Validators.required]],
         userId: ['', [Validators.required, Validators.minLength(6)]],
+        userEmail: ['', [Validators.required]],
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
       },
@@ -35,6 +39,25 @@ export class SignUpComponent {
   passwordMatchValidator(data: FormGroup) {}
 
   onSubmit() {
-    console.log('nigga');
+    if (this.signUpForm.valid) {
+      const formValues = this.signUpForm.value;
+      const signUpForm: SignUpModel = {
+        firstName: formValues.firstName,
+        lastName: formValues.lastName,
+        middleName: formValues.middleName,
+        password: formValues.password,
+        dateOfBirth: new Date(formValues.dateOfBirth),
+        userEmail: formValues.userEmail,
+        userId: formValues.userId,
+      };
+      this.authService.signup(signUpForm).subscribe({
+        next: (response) => {
+          console.log('Signup successful', response);
+        },
+        error: (error) => {
+          console.error('Signup failed', error);
+        },
+      });
+    }
   }
 }

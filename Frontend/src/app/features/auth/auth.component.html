@@ -3,12 +3,20 @@
     <div class="auth-box">
       <router-outlet></router-outlet>
       <div class="auth-buttons">
-        <ng-container *ngIf="!isExistingUser">
-          <button mat-raised-button color="primary" [routerLink]="['/auth/sign-in']">Sign In</button>
-        </ng-container>
-        <ng-container *ngIf="isExistingUser">
-          <button mat-raised-button color="primary" [routerLink]="['/auth/sign-up']">Sign Up</button>
-        </ng-container>
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/auth/sign-in']"
+        >
+          Sign In
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/auth/sign-up']"
+        >
+          Sign Up
+        </button>
       </div>
     </div>
   </div>

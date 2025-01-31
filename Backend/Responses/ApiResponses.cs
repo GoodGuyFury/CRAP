@@ -1,9 +1,11 @@
 ﻿using code_review_analysis_platform.Enums;
+using System.Text.Json.Serialization;
 
 namespace code_review_analysis_platform.Responses
 {
     public class ApiResponse<T>
     {
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Status Status { get; set; }  // Enum for Success/Failed
         public string Message { get; set; } // Default/custom message
         public T? Data { get; set; }         // Generic data object

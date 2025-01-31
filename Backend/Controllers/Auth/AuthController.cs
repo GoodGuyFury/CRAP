@@ -13,7 +13,7 @@ namespace code_review_analysis_platform.Controllers.Auth
     {
         // GET: api/<AuthController>
         [HttpPost("login")]
-        public ApiResponse<LoginResponseDTO> Login([FromBody] LoginDetails loginDetails)
+        public ApiResponse<LoginResponseDTO> Login([FromBody] LoginDetails LoginDetails)
         {
             var UserData = new LoginResponseDTO {
                 FirstName = "",
@@ -27,7 +27,7 @@ namespace code_review_analysis_platform.Controllers.Auth
             return (ApiResponse<LoginResponseDTO>.SuccessResponse(UserData, "sexy"));
         }
         [HttpPost("signup")]
-        public ApiResponse<LoginResponseDTO> SignUp([FromBody] LoginDetails loginDetails)
+        public ApiResponse<LoginResponseDTO> SignUp([FromBody] SignUpDetails SignUpDetails)
         {
             var UserData = new LoginResponseDTO
             {

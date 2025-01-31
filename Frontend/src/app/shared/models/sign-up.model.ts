@@ -3,7 +3,7 @@ export interface SignUpModel {
   lastName: string | null;
   middleName: string | null;
   password: string;
-  dob: Date;
-  email: string;
+  dateOfBirth: Date;
+  userEmail: string;
   userId: string;
 }
