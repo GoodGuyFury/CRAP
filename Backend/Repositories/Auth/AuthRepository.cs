@@ -1,5 +1,6 @@
 ﻿using code_review_analysis_platform.Data;
 using code_review_analysis_platform.Data.Entities;
+using code_review_analysis_platform.Helpers;
 using code_review_analysis_platform.Models.Auth;
 using code_review_analysis_platform.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -20,32 +21,46 @@ namespace code_review_analysis_platform.Repositories.Auth
         }
         public async Task<ApiResponse<string>> CreateNewUser(SignUpDetails NewUser)
         {
-            bool emailExists = await _context.Users.AnyAsync(u => u.UserEmail == NewUser.UserEmail);
-            if (emailExists)
+            try
             {
-                return ApiResponse<string>.ErrorResponse("Email already exists.");
-            }
+                bool emailExists = await _context.Users.AnyAsync(u => u.UserEmail == NewUser.UserEmail);
+                if (emailExists)
+                {
+                    return ApiResponse<string>.ErrorResponse("Email already exists.");
+                }
 
-            // Check if the user ID already exists in the database
-            bool userIdExists = await _context.Users.AnyAsync(u => u.UserId == NewUser.UserId);
-            if (userIdExists)
-            {
-                return ApiResponse<string>.ErrorResponse("User ID already exists.");
-            }
+                // Check if the user ID already exists in the database
+                bool userIdExists = await _context.Users.AnyAsync(u => u.UserId == NewUser.UserId);
+                if (userIdExists)
+                {
+                    return ApiResponse<string>.ErrorResponse("User ID already exists.");
+                }
 
-            User NewUserDb = new User
+                User newUserDb = new User
+                {
+                    UserEmail = NewUser.UserEmail,
+                    UserId = NewUser.UserId,
+                    FirstName = NewUser.FirstName,
+                    LastName = NewUser.LastName,
+                    MiddleName = NewUser.MiddleName,
+                    DateOfBirth = NewUser.DateOfBirth,
+                    Phone = NewUser.Phone
+                };
+                Credentials newUserCred = new Credentials
+                {
+                    UserId = NewUser.UserId,
+                    Password = BCryptHelper.HashPassword(NewUser.Password),
+                    User = newUserDb
+                };
+
+                _context.Users.Add(newUserDb);
+                _context.Credentials.Add(newUserCred);
+                await _context.SaveChangesAsync();
+                return ApiResponse<string>.SuccessResponse(string.Empty, "User Created Successfully");
+            } catch (Exception ex)
             {
-                UserEmail = NewUser.UserEmail,
-                UserId = NewUser.UserId,
-                FirstName = NewUser.FirstName,
-                LastName = NewUser.LastName,
-                MiddleName = NewUser.MiddleName,
-                DateOfBirth = NewUser.DateOfBirth,
-                Phone = NewUser.Phone
-            };
-            _context.Users.Add(NewUserDb);
-            await _context.SaveChangesAsync();
-            return ApiResponse<string>.SuccessResponse(string.Empty,"User Created Successfully");
+                return ApiResponse<string>.ErrorResponse(ex.Message);
+            }
         }
     }
 }
