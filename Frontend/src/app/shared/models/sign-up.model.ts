@@ -6,4 +6,5 @@ export interface SignUpModel {
   dateOfBirth: Date;
   userEmail: string;
   userId: string;
+  phone: string;
 }

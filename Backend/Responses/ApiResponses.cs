@@ -21,7 +21,7 @@ namespace code_review_analysis_platform.Responses
         // Constructor for error response
         public ApiResponse(string message = "Operation failed")
         {
-            Status = Status.Failed;
+            Status = Status.Error;
             Message = message;
             Data = default; // No data in case of failure
         }

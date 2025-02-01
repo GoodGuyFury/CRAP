@@ -33,7 +33,8 @@ namespace code_review_analysis_platform.Models.Auth
             public string? LastName { get; set; }
             public required DateTime DateOfBirth { get; set; }
             public required string UserId { get; set; }
-            public string? UserEmail { get; set; }
+            public required string UserEmail { get; set; }
+            public required string Phone { get; set; }
             public required string Password { get; set; }
     }
 }

@@ -72,7 +72,10 @@
             },
             "development": {
               "buildTarget": "code-review-analysis-platform:build:development",
-              "ssl": true
+              "ssl": true,
+              "sslKey": "certs/localhost.key",
+              "sslCert": "certs/localhost.crt",
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"

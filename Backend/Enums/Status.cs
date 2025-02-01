@@ -3,8 +3,8 @@
     public enum Status
     {
         Pending = 0,
-        Success = 1, 
-        Failed = 2,     
+        Success = 1,
+        Error = 2,     
         InProgress = 3
     }
 }
