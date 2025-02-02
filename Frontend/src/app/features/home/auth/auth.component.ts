@@ -1,6 +1,8 @@
 import { SHARED_MODULES } from './../../../shared/modules/shared.moudle';
 import { Component, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { log } from 'console';
+import { filter, Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -10,21 +12,33 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
-  isExistingUser: boolean = true;
-  constructor(private route: ActivatedRoute) {}
+  isSignIn: boolean = true;
+  private destroy$ = new Subject<void>();
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   ngOnInit(): void {
     this.setIsExistingUser();
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((event) => event instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        this.setIsExistingUser();
+      });
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    // Watch for changes and update `isExistingUser` accordingly
-    if (changes['route']) {
-      this.setIsExistingUser();
-    }
-  }
+
   private setIsExistingUser(): void {
-    this.route.data.subscribe((data) => {
-      this.isExistingUser = data['isExistingUser'];
-      console.log('isExistingUser in AuthComponent:', this.isExistingUser); // To debug
-    });
+    this.route.firstChild?.data
+      .pipe(takeUntil(this.destroy$), take(1))
+      .subscribe((data) => {
+        console.log(data);
+        this.isSignIn = data['isSignIn'];
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
