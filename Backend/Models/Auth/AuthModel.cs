@@ -7,7 +7,6 @@ namespace code_review_analysis_platform.Models.Auth
 {
         public class LoginDetails
         {
-            [EmailOrUserIdRequiredAttribute]
             public string? UserId { get; set; }
             public string? UserEmail { get; set; }
 
@@ -22,7 +21,6 @@ namespace code_review_analysis_platform.Models.Auth
             public required DateTimeOffset DateOfBirth { get; set; }
             public required string UserId { get; set; }
             public string? UserEmail { get; set; }
-            [JsonConverter(typeof(JsonStringEnumConverter))]
             public required Role Role { get; set; }
             public required List<string> AccessibleRoutes { get; set; }
         }

@@ -10,6 +10,7 @@ namespace code_review_analysis_platform.Repositories.Auth
     public interface IAuthRepository
     {
         Task<ApiResponse<string>> CreateNewUser(SignUpDetails SignUpDetails);
+        Task<ApiResponse<LoginResponseDTO>> SignIn(LoginDetails user);
     }
     public class AuthRepository: IAuthRepository
     {
@@ -61,6 +62,22 @@ namespace code_review_analysis_platform.Repositories.Auth
             {
                 return ApiResponse<string>.ErrorResponse(ex.Message);
             }
+        }
+
+        public async Task<ApiResponse<LoginResponseDTO>> SignIn( LoginDetails user)
+        {
+            LoginResponseDTO returnUser = new LoginResponseDTO
+            {
+                UserEmail = "",
+                UserId = "",
+                AccessibleRoutes = [""],
+                DateOfBirth = DateTimeOffset.Now,
+                FirstName="",
+                LastName="",
+                MiddleName="",
+                Role = Enums.Role.Admin
+            };
+            return ApiResponse<LoginResponseDTO>.SuccessResponse(returnUser);
         }
     }
 }

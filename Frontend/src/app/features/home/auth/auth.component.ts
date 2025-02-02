@@ -29,12 +29,13 @@ export class AuthComponent {
   }
 
   private setIsExistingUser(): void {
-    this.route.firstChild?.data
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe((data) => {
-        console.log(data);
-        this.isSignIn = data['isSignIn'];
-      });
+    if (!this.route.firstChild) {
+      this.isSignIn = false;
+      return;
+    }
+    this.route.firstChild.data.pipe(take(1)).subscribe((data) => {
+      this.isSignIn = data['isSignIn'];
+    });
   }
 
   ngOnDestroy(): void {

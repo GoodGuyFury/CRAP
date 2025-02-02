@@ -5,16 +5,6 @@ namespace code_review_analysis_platform.Validators.Auth
 {
     public class AuthValidator
     {
-        public class EmailOrUserIdRequiredAttribute : ValidationAttribute
-        {
-            public override bool IsValid(object? value)
-            {
-               var Models = value as LoginDetails;
-                if (Models == null) {
-                    return false;
-                }
-                return !string.IsNullOrEmpty(Models.UserEmail) || !string.IsNullOrEmpty(Models.UserId);
-            }
-        }
+      
     }
 }
