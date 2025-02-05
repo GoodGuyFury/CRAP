@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { DialogService } from './../../../../shared/services/dialog.service';
 import { Component } from '@angular/core';
 import { SHARED_MODULES } from '../../../../shared/modules/shared.moudle';
 import {
@@ -7,8 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { SignUpModel } from '../../../../shared/models/sign-up.model';
-import { last } from 'rxjs';
+import { last, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { StatusEnum } from '../../../../shared/enums/status.enum';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,7 +22,14 @@ import { AuthService } from '../../../../shared/services/auth.service';
 })
 export class SignUpComponent {
   signUpForm!: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private dialogService: DialogService,
+    private router: Router
+  ) {}
   ngOnInit(): void {
     this.signUpForm = this.fb.group(
       {
@@ -37,7 +47,14 @@ export class SignUpComponent {
     );
   }
 
-  passwordMatchValidator(data: FormGroup) {}
+  passwordMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+
+    return password && confirmPassword && password !== confirmPassword
+      ? { passwordMismatch: true }
+      : null;
+  }
 
   onSubmit() {
     if (this.signUpForm.valid) {
@@ -55,12 +72,25 @@ export class SignUpComponent {
       console.log(signUpForm);
       this.authService.signup(signUpForm).subscribe({
         next: (response) => {
-          console.log('Signup successful', response);
+          this.dialogService
+            .showMessage(response.message)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+              if (response.status === StatusEnum.Success) {
+                this.router.navigate(['/home/auth/sign-in']);
+              } else if (response.status === StatusEnum.Error) {
+                return;
+              }
+            });
         },
         error: (error) => {
           console.error('Signup failed', error);
         },
       });
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

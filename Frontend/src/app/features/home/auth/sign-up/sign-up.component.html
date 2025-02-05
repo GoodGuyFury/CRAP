@@ -26,6 +26,17 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="half-width">
+            <mat-label>Middle Name</mat-label>
+            <input
+              matInput
+              formControlName="middleName"
+              placeholder="Enter middle name"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="half-width">
             <mat-label>Last Name</mat-label>
             <input
               matInput
@@ -33,10 +44,7 @@
               placeholder="Enter last name"
             />
           </mat-form-field>
-        </div>
-
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="full-width">
+          <mat-form-field appearance="outline" class="half-width">
             <mat-label>Date of Birth</mat-label>
             <input
               matInput
@@ -138,9 +146,7 @@
             >
               Please confirm your password
             </mat-error>
-            <mat-error
-              *ngIf="signUpForm.get('confirmPassword')?.errors?.['passwordMismatch']"
-            >
+            <mat-error *ngIf="signUpForm.hasError('passwordMismatch')">
               Passwords do not match
             </mat-error>
           </mat-form-field>

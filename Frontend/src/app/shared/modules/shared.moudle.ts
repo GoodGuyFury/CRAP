@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export const SHARED_MODULES = [
   MatFormFieldModule,
@@ -22,4 +23,5 @@ export const SHARED_MODULES = [
   MatGridListModule,
   RouterModule,
   RouterOutlet,
+  MatDialogModule,
 ];

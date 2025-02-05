@@ -34,8 +34,8 @@ namespace code_review_analysis_platform.Data.Entities
 
         [Required]
         [DataType(DataType.Date)]
-        [Column(TypeName = "DATE")]
-        public required DateTime DateOfBirth { get; set; }
+        [Column(TypeName = "datetimeoffset")]
+        public required DateTimeOffset DateOfBirth { get; set; }
 
         [Required]
         [Column(TypeName = "VARCHAR(15)")]

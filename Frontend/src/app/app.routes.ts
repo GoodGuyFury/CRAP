@@ -20,12 +20,12 @@ export const routes: Routes = [
           {
             path: 'sign-in',
             component: SignInComponent,
-            data: { isExistingUser: true },
+            data: { isSignIn: true },
           },
           {
             path: 'sign-up',
             component: SignUpComponent,
-            data: { isExistingUser: false },
+            data: { isSignIn: false },
           },
         ],
       },
