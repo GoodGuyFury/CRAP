@@ -4,13 +4,14 @@ using code_review_analysis_platform.Helpers;
 using code_review_analysis_platform.Models.Auth;
 using code_review_analysis_platform.Responses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace code_review_analysis_platform.Repositories.Auth
 {
     public interface IAuthRepository
     {
-        Task<ApiResponse<string>> CreateNewUser(SignUpDetails SignUpDetails);
-        Task<ApiResponse<LoginResponseDTO>> SignIn(LoginDetails user);
+        Task<ApiResponse<string>> CreateNewUser(SignUpDetailsDTO SignUpDetails);
+        Task<ApiResponse<LoginResponseDTO>> SignIn(LoginDetailsDTO user);
     }
     public class AuthRepository: IAuthRepository
     {
@@ -20,7 +21,7 @@ namespace code_review_analysis_platform.Repositories.Auth
         {
             _context = context;
         }
-        public async Task<ApiResponse<string>> CreateNewUser(SignUpDetails NewUser)
+        public async Task<ApiResponse<string>> CreateNewUser(SignUpDetailsDTO NewUser)
         {
             try
             {
@@ -64,20 +65,53 @@ namespace code_review_analysis_platform.Repositories.Auth
             }
         }
 
-        public async Task<ApiResponse<LoginResponseDTO>> SignIn( LoginDetails user)
+        public async Task<ApiResponse<LoginResponseDTO>> SignIn(LoginDetailsDTO user)
         {
+            if (string.IsNullOrEmpty(user.UserEmail) && string.IsNullOrEmpty(user.UserId))
+            {
+                return ApiResponse<LoginResponseDTO>.ErrorResponse("You have to provide either Email or UserId");
+            }
+
+            var dbUser = !string.IsNullOrEmpty(user.UserId)
+                ? await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId)
+                : await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == user.UserEmail);
+
+            if (dbUser == null)
+            {
+                return ApiResponse<LoginResponseDTO>.ErrorResponse("User not found");
+            }
+
+            var dbUserCred = await _context.Credentials.FirstOrDefaultAsync(u => u.UserId == dbUser.UserId);
+            if (dbUserCred == null)
+            {
+                return ApiResponse<LoginResponseDTO>.ErrorResponse("Invalid credentials");
+            }
+
+            if (!BCryptHelper.VerifyPassword(user.Password, dbUserCred.Password))
+            {
+                return ApiResponse<LoginResponseDTO>.ErrorResponse("Invalid Password");
+            }
+
+            var dbUserDetails = await _context.Users.FirstOrDefaultAsync(u => u.UserId == dbUserCred.UserId);
+            if (dbUserDetails == null)
+            {
+                return ApiResponse<LoginResponseDTO>.ErrorResponse("User details not found");
+            }
+
             LoginResponseDTO returnUser = new LoginResponseDTO
             {
-                UserEmail = "",
-                UserId = "",
-                AccessibleRoutes = [""],
-                DateOfBirth = DateTimeOffset.Now,
-                FirstName="",
-                LastName="",
-                MiddleName="",
+                UserEmail = dbUserDetails.UserEmail,
+                UserId = dbUserDetails.UserId,
+                AccessibleRoutes = new List<string>(),
+                DateOfBirth = dbUserDetails.DateOfBirth,
+                FirstName = dbUserDetails.FirstName,
+                LastName = dbUserDetails.LastName,
+                MiddleName = dbUserDetails.MiddleName,
                 Role = Enums.Role.Admin
             };
+
             return ApiResponse<LoginResponseDTO>.SuccessResponse(returnUser);
         }
+
     }
 }

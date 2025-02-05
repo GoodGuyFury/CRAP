@@ -9,7 +9,6 @@ namespace code_review_analysis_platform.Responses
         public string Message { get; set; }
         public T? Data { get; set; }   
 
-        // Constructor for default success response
         public ApiResponse(T data, string message = "Operation successful")
         {
             Status = Status.Success;
@@ -17,15 +16,13 @@ namespace code_review_analysis_platform.Responses
             Data = data;
         }
 
-        // Constructor for error response
         public ApiResponse(string message = "Operation failed")
         {
             Status = Status.Error;
             Message = message;
-            Data = default; // No data in case of failure
+            Data = default;
         }
 
-        // Static helper methods for cleaner usage
         public static ApiResponse<T> SuccessResponse(T data, string message = "Operation successful")
         {
             return new ApiResponse<T>(data, message);
