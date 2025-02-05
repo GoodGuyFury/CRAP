@@ -1,0 +1,24 @@
+<div class="auth-container">
+  <div class="auth-box">
+    <router-outlet></router-outlet>
+    <div class="auth-buttons">
+      <button
+        *ngIf="!isSignIn"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/home/auth/sign-in']"
+      >
+        Sign In
+      </button>
+
+      <button
+        *ngIf="isSignIn"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/home/auth/sign-up']"
+      >
+        Sign Up
+      </button>
+    </div>
+  </div>
+</div>

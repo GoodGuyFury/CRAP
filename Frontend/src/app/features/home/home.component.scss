@@ -1,0 +1,17 @@
+.background-container {
+  background-color: rgba(84, 84, 202, 0.603); /* Replace with your image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  overflow: auto;
+}
+router-outlet + * {
+  width: 100%;
+  display: flex; /* Ensure child components can control alignment */
+  flex-direction: column;
+}
